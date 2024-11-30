@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+<head lang="en">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cell Block</title>
+    <style>
+        body {
+            height: 800px;
+            width: 8315px;
+            padding: 0;
+            margin: 0;
+        }
+
+        area {
+            cursor: pointer;
+        }
+
+        #cell-block-image {
+            transition: transform 2.0s none;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <img src="images/cell block.png" alt="cell block" usemap="#cell-block" id="cell-block-image"
+        style="width: 8315px; height: 800px" />
+    <map name="cell-block">        
+        <area shape="rect" coords="5986,722,6158,406" alt="left-of-no-entry" onclick="doorLocked()" />
+        <area shape="rect" coords="7500,755,7874,180" alt="no-entry" href="doorOne.html" />
+        <area shape="rect" coords="2949,714,3079,457" alt="cafe" onclick="cafeteria()" />
+        <area shape="rect" coords="2565,720,2716,444" alt="guard-room" onclick="gameOver()" />
+        <area shape="rect" coords="2114,740,2263,410" alt="workshop" onclick="doorLocked()" />
+        <area shape="rect" coords="1534,735,1703,357" alt="left-most" href="endlessCorridor.html" />
+        <area shape="rect" coords="4082,332,4108,296" alt="escape" onclick="gameWon()" />
+        <area shape="rect" coords="3912,677,4247,295" alt="prison" onclick="gameOver()" />
+        <area shape="circle" coords="3415,515,20" alt="security-guard" onclick="gameOver()" />
+        <area shape="circle" coords="1400,460,22" alt="security-guard" onclick="gameOver()" />
+        <area shape="circle" coords="4443,488,20" alt="security-guard" onclick="gameOver()" />
+        <area shape="circle" coords="6467,416,22" alt="security-guard" onclick="getKey()" />
+        <area shape="poly" coords="4950, 33, 6285, 800, 5582, 800, 4891, 76" alt="camera" onmouseenter="gameOver2()" />
+        <area shape="poly" coords="3330, 108, 3312, 57, 2718, 0, 520, 537" alt="camera" onmouseenter="gameOver2()" />
+        <area shape="rect" coords="6724, 736, 6994, 319" alt="time machine" onclick="gameOver3()" />
+    </map>
+    <script>
+        function gameWon() {
+            document.getElementById("body").style.background = "black";
+            alert("GAME WON!");
+            alert("GAME WON!");
+            alert("GAME WON!");
+        }
+        function getKey() {
+            alert("/key acquired: key is '2024-11-26'/");
+        }
+        function cafeteria() {
+            const KEY = "2024-11-26"
+            var userEntered = prompt("enter the key.")
+            if (userEntered == KEY) {
+                alert("door unlocked");
+                window.open("cafeteria.html", "_self");
+            } else {
+                alert("wrong key");
+            }
+        }
+        function gameOver() {
+            alert("*SIREN* - /game over/");
+            window.open("index.html", "_self");
+        }
+        function gameOver2() {
+            alert("*SIREN* - /CAMERA CAUGHT YOU game over/");
+            window.open("index.html", "_self");
+        }
+        function gameOver3() {
+            var answer = prompt("/go back to start page? options 'yes' or 'no'/");
+            if (answer == "yes") {
+                window.open("index.html", "_self");
+            }
+        }
+        function doorLocked() {
+            alert("door locked");
+        }
+        const img = document.getElementById("cell-block-image");
+
+        let zoomLevel = 1;
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowUp") {
+                if (zoomLevel < 9) {
+                    zoomLevel += 0.2;
+                    document.getElementById("cell-block-image").style.transform = `scale(${zoomLevel})`;
+                }
+            }
+            if (event.key === "ArrowDown") {
+                if (zoomLevel > 1) {
+                    zoomLevel -= 0.2;
+                    document.getElementById("cell-block-image").style.transform = `scale(${zoomLevel})`;
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>

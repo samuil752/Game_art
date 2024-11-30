@@ -1,0 +1,377 @@
+<!doctype html>
+<html>
+
+<head lang="en">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>final fate</title>
+    <style>
+        /* Make the body start black and fade in */
+        body {
+            margin: 0;
+            color: white;
+            font-family: 'Times New Roman', serif;
+            width: 1280px;
+            padding: 0;
+        }
+
+        .content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .fade-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            animation: dipOutOfBlack 4s ease-in-out forwards;
+        }
+
+        @keyframes dipOutOfBlack {
+            0% {
+                opacity: 1;
+
+            }
+
+            100% {
+                opacity: 0;
+                /* Fully transparent */
+            }
+        }
+
+        #image-container {
+            width: 1280px;
+            height: 800px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        #image-container img {
+            width: 1280px;
+            height: 800px;
+        }
+
+        /* Door container */
+        .door-frame {
+            position: absolute;
+            width: 67px;
+            height: 122px;
+            background-color: black;
+            border: 5px solid rgb(41, 60, 40);
+            overflow: hidden;
+        }
+
+        /* Door */
+        .innerdoor {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #614d4d;
+            transform-origin: left center;
+            transition: transform 1s ease-in-out;
+        }
+
+        /* Door handle */
+        .handle {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            width: 5px;
+            height: 5px;
+            background-color: black;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Door open state */
+        .innerdoor.open {
+            transform: rotateY(-90deg);
+        }
+
+        hr {
+            position: relative;
+            background-color: rgb(127, 127, 127);
+            height: 10px;
+        }
+
+        footer {
+            margin-top: auto;
+            color: white;
+            background-color: black;
+            font-size: 6px;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            position: fixed;
+            bottom: 0px;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        map{
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div id="image-container">
+        <map name="cameras">
+            <!-- Camera 1 -->
+            <area shape="poly" coords="629,270,1092,387,1097,431,660,438,627,287" alt="camera 1"
+                onmouseenter="gameOver()" />
+            <!-- Camera 2 -->
+            <area shape="poly" coords="852,457,390,597,392,630,743,617,859,471" alt="camera 2"
+                onmouseenter="gameOver()" />
+            <!-- Camera 3 -->
+            <area shape="poly" coords="215,486,158,608,158,639,0,645,0,555,208,471" alt="camera 3"
+                onmouseenter="gameOver()" />
+            <!-- Camera 4 -->
+            <area shape="poly" coords="64,679,67,659,527,785,518,800,141,800" alt="camera 4"
+                onmouseenter="gameOver()" />
+            <!-- Camera 5 -->
+            <area shape="poly" coords="606,800,517,659,523,646,1071,779,1056,800" alt="camera 5"
+                onmouseenter="gameOver()" />
+        </map>
+        <img src="images/final_fate.png" id="image" alt="Game Map" usemap="#cameras" />
+        <div class="content">
+
+
+
+
+            <!--door 1-->
+            <div class="door-frame" data-link="xxx" style="
+            top: 630px;
+            left: 1169px;
+            ">
+                <div class="innerdoor">
+                    <div class="handle"></div>
+                </div>
+            </div>
+
+            <!-- Door 2 with a different link -->
+            <div class="door-frame" data-link="index.html" style="
+            top: 447px;
+            left: 540px;
+            ">
+                <div class="innerdoor">
+                    <div class="handle"></div>
+                </div>
+            </div>
+
+
+            <!-- Door 3 with another different link -->
+            <div class="door-frame" data-link="index.html" style="
+            top: 264px;
+            left: 1120px;
+            ">
+                <div class="innerdoor">
+                    <div class="handle"></div>
+                </div>
+            </div>
+        </div>
+        <div class="fade-overlay" style="z-index: 3"></div>
+
+        <section id="dialog"
+            style="height: 60px; font-family: times new roman; font-size: 14px; color: white; width:  1270px; position: fixed; bottom: 0px; padding: 5px; background-color: #110000; border: 5px #b600ad; display:none; z-index: 4">
+        </section>
+
+
+
+        <script>
+
+            function gameOver() {
+                alert("GAMEOVER - /the camera saw you/");
+                window.open("index.html", "_self");
+            }
+
+            setTimeout(() => {
+                document.querySelector(".fade-overlay").style.zIndex = "0";
+            }, 1000);
+            document.querySelectorAll(".innerdoor").forEach((innerdoor) => {
+                innerdoor.addEventListener("click", () => {
+                    const link =
+                        innerdoor.parentElement.getAttribute("data-link");
+                    innerdoor.classList.toggle("open");
+                    if (link != "xxx") {
+                        alert("GAME OVER");
+                    } else {
+                        alert("GAME WON!");
+                    }
+                    setTimeout(() => {
+                        window.location.href = link; // Redirect to the corresponding link
+                    }, 1000); // 1 second delay before redirect
+                });
+            });
+
+            opening();
+
+            function opening() {
+                const dialog = document.getElementById("dialog");
+                const dialogLines = ['"You: Ah, I smell freedom, or doom..."', '"I guess it all depends on what door I choose"'];
+                document.addEventListener("keydown", nextScene);
+                let dialogIndex = 0;
+                dialog.style.display = "block"; //display reading
+                updateDialog(); //start
+
+                function nextScene(event) {
+                    if (event.code == "Enter") {
+                        updateDialog();
+                    }
+                }
+                function updateDialog() {
+                    if (dialogIndex < dialogLines.length) {
+                        dialog.innerHTML = dialogLines[dialogIndex];
+                        dialogIndex++;
+                    } else {
+                        document.removeEventListener("keydown", nextScene);
+                        dialog.style.display = "none";
+                        phoneCall();
+                    }
+                }
+            }
+
+            function phoneCall() {
+                var choice = prompt("Would you like to make phone call from one of your contacts? options: enter a phone code or say 'No'");
+                if (choice != "No" && choice != "NO" && choice != "no") {
+                    switch (choice) {
+                        case "647-123-4567":
+                            interaction1();
+
+                            break;
+                        case "555-LOCKDOWN":
+                            interaction2();
+
+                            break;
+                        case "555-lockdown":
+                            interaction2();
+
+                            break;
+                        case "555-Lockdown":
+                            interaction2();
+
+                            break;
+                        case "Skull":
+                            interaction3();
+
+                            break;
+                        case "SKULL":
+                            interaction3();
+
+                            break;
+                        case "skull":
+                            interaction3();
+
+                            break;
+                        default:
+                            alert("no code in your contacts with that code is found/");
+                    }
+                } else {
+                    false;
+                }
+            }
+
+            function interaction1() {
+                //the prisoner
+                const dialog = document.getElementById("dialog");
+                const dialogLines = ["CALLING...", 'John The Prisoner: (laughs) "Well, well, look who decided to call. I knew you\'d need me eventually. You at the final stretch, huh? Staring at those doors, each one promising something you can’t see yet. Freedom, or... the other thing."',
+                    'Player: "I don’t have time for riddles. Just tell me which door leads out of here."',
+                    'Prisoner: (pauses, smirking audibly) "Alright, but listen close. What I say next... it’ll change everything. Trust me, or don’t. That’s your choice."',
+                    'Prisoner: "You’ve been good to me, so here’s the truth. The ground floor door, that’s your way out. My buddy said he saw the sunlight spill in through the cracks when he ran. I didn’t tell anyone else, so you’re the only one who knows now. Don’t waste it. Now, go, before the guards catch on!"'
+                ];
+                document.addEventListener("keydown", nextScene);
+                let dialogIndex = 0;
+                dialog.style.display = "block"; //display reading
+                updateDialog(); //start
+
+                function nextScene(event) {
+                    if (event.code == "Enter") {
+                        updateDialog();
+                    }
+                }
+                function updateDialog() {
+                    if (dialogIndex < dialogLines.length) {
+                        dialog.innerHTML = dialogLines[dialogIndex];
+                        dialogIndex++;
+                    } else {
+                        document.removeEventListener("keydown", nextScene);
+                        dialog.style.display = "none";
+
+                    }
+                }
+            }
+
+            function interaction2() {
+                const dialog = document.getElementById("dialog");
+                const dialogLines = ["CALLING...",
+                    'Seller: (calm, business-like tone) "Yeah, it’s me. I was wondering when you’d call. You’re at the final doors, huh? Been a long ride, I bet. Alright, let’s cut to the chase—what do you need?"',
+                    'Player: "Which door gets me out of here? Just tell me. I don’t have time for games."',
+                    'Seller: (pauses for a moment) "I get it. You want answers. You’re running out of time. But you should know—what I’m about to tell you? It’s not a guarantee. You make the call, but the rest is up to you."',
+                    "Alright, I’m not gonna waste your time. It’s the door on the second floor. I know, sounds simple, but that’s the one. Take your chances."
+                ];
+                document.addEventListener("keydown", nextScene);
+                let dialogIndex = 0;
+                dialog.style.display = "block"; //display reading
+                updateDialog(); //start
+
+                function nextScene(event) {
+                    if (event.code == "Enter") {
+                        updateDialog();
+                    }
+                }
+                function updateDialog() {
+                    if (dialogIndex < dialogLines.length) {
+                        dialog.innerHTML = dialogLines[dialogIndex];
+                        dialogIndex++;
+                    } else {
+                        document.removeEventListener("keydown", nextScene);
+                        dialog.style.display = "none";
+
+                    }
+                }
+            }
+
+            function interaction3() {
+                const dialog = document.getElementById("dialog");
+                const dialogLines = [
+                    "CALLING...",
+                    "YOUR FINAL TEST LIES HERE<br>CHOOSE THE TOP AND THERE SHALL BE NO FEAR.",
+                    "DO YOU TRUST YOURSELF, OR TRUST IN ME?<br>YOUR FATE IS YOURS ALONE TO SEE.",
+                    "CHOOSE WISELY, OR CHOOSE POORLY—IT MATTERS NOT TO ME.<br>THE END, DEAR WANDERER, WAS ALWAYS YOURS TO DECREE."
+                ];
+                document.addEventListener("keydown", nextScene);
+                let dialogIndex = 0;
+                dialog.style.display = "block"; //display reading
+                updateDialog(); //start
+
+                function nextScene(event) {
+                    if (event.code == "Enter") {
+                        updateDialog();
+                    }
+                }
+                function updateDialog() {
+                    if (dialogIndex < dialogLines.length) {
+                        dialog.innerHTML = dialogLines[dialogIndex];
+                        dialogIndex++;
+                    } else {
+                        document.removeEventListener("keydown", nextScene);
+                        dialog.style.display = "none";
+
+                    }
+                }
+            }
+
+
+
+        </script>
+</body>
+
+</html>

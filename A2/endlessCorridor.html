@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Escape</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: grey;
+        width: 1280px;
+        height: 800px;
+      }
+
+      #map-container {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      #corridor-image {
+        max-width: 100%;
+        height: auto;
+        transition: transform 2.0s none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map-container">
+      <img
+        id="corridor-image"
+        src="images/corridor.png"
+        alt="Zoomable map"
+        usemap="#game-map"
+      />
+    </div>
+
+    <p
+      id="characterSpeech"
+      style="
+        position: fixed;
+        top: 50px;
+        font-family: times new roman;
+        font-size: 40px;
+        left: 30px;
+      "
+    ></p>
+
+    <!-- JavaScript -->
+    <script>
+      document.getElementById("characterSpeech").innerHTML =
+        "how long is this corridor?";
+      setTimeout(() => {
+        document.getElementById("characterSpeech").innerHTML =
+          "lets go forward";
+      }, 2000);
+      setTimeout(() => {
+        document.getElementById("characterSpeech").innerHTML = "";
+      }, 4000);
+
+      const mapImage = document.getElementById("corridor-image");
+      let zoomLevel = 1;
+
+      // Zoom in when the user presses the ArrowUp key
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowUp") {
+          zoomLevel += 0.2;
+          if (zoomLevel >= 1.5) {
+            zoomLevel = 1;
+            mapImage.style.transform = `scale(${zoomLevel})`;
+          } else {
+            mapImage.style.transform = `scale(${zoomLevel})`;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

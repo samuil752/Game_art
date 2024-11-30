@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>locked</title>
+    <style>
+      #doorLocker {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: monospace;
+        width: 800px;
+      }
+      body {
+        display: flex;
+        background: url("images/locked2.jpg"); /*put in a locked door image complete minesweeper game to escape from the door.*/
+        background-size: 1280px;
+        width: 1280px;
+        padding: 0px;
+        margin: 0px;
+      }
+
+      #minesweeper {
+        display: grid;
+        grid-template-columns: repeat(10, 60px);
+        grid-template-rows: repeat(10, 60px);
+        gap: 4px;
+      }
+
+      .cell {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #111111;
+        border: 8px solid grey;
+        font-size: 36px;
+        cursor: pointer;
+      }
+
+      .cell.mine {
+        background-color: red;
+        color: white;
+      }
+
+      .cell.revealed {
+        background-color: green;
+        cursor: default;
+      }
+
+      footer {
+        font-size: 9px;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body> 
+    <section style="position: relative; width: 300px; color: #eeeeee; padding: 10px; font-size: 40px; font-family: times new roman;">
+      <br><br>The door shut down behind me, and it got locked!<br><br>
+      There is another door here. What's this, a lock? <br><br> Looks like this is my only way out of here.
+    </section>
+    
+      <div id="doorLocker">
+        <h1 style="font-family: impact; color: #ff4444; text-decoration: none; font-size: 45px; font-weight: lighter">
+          NO ENTRY
+        <h1>
+        <div id="minesweeper"></div>
+        
+      </div>
+   <span id="timer" style="position: relative; width: 300px; color: #eeeeee; padding: 10px; font-size: 40px; font-family: monospace">300</span>
+   <script src="script.js"></script>
+  </body>
+</html>

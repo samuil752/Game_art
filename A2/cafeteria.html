@@ -1,0 +1,340 @@
+<!doctype html>
+<html>
+
+<head lang="en">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafeteria</title>
+    <style>
+        body {
+            width: 1280px;
+            height: 800px;
+            padding: 0;
+            margin: 0;
+        }
+
+        area {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="images/cafeteria.png" alt="cafeteria" usemap="#cafeteria-map" id="cafeteria-image"
+        style="width: 1280px; height: 800px" />
+    <map name="cafeteria-map">
+        <area shape="circle" coords="180,284,70" alt="prisoner1" onclick="interaction1()" />
+        <area shape="circle" coords="482,129,40" alt="prisoner2" onclick="interaction2()" />
+        <area shape="circle" coords="1112,86,63" alt="seller" onclick="interaction3()" />
+        <area shape="rect" coords="804,468,564,53" alt="door1" href="doorTwo.html" />
+        <area shape="rect" coords="414,481,163,66" alt="washroom" onclick="occupied()" />
+    </map>
+    <section id="dialog"
+        style="height: 60px; font-family: times new roman; font-size: 14px; color: white; width:  1270px; position: fixed; bottom: 0px; padding: 5px; background-color: #110000; border: 5px #b600ad; display:none">
+    </section>
+    <script>
+        function interaction1() {
+            var yourCards;
+            var prisonerCards;
+            var yourPoints;
+            var prisonerPoints;
+            let didYouWin;
+            let yourName = null;
+
+
+            const dialog = document.getElementById("dialog");
+            document.addEventListener("keydown", nextScene);
+            let dialogIndex = 0;
+            var dialogLines = [
+                '"Hey, my name is John what’s yours? Didn’t expect company in this corner of hell. You must be one of the lucky ones—still breathing, still thinking you can get out of here." <br><br> (pauses, chuckling bitterly) [press enter to continue...]',
+                `"Okay ${yourName} I’ll help you. But it’ll cost you. You win against me in a little game I like to play, and I’ll give you what you need to escape. Lose, and, well..." [press enter to continue...]`,
+                "/asks user to enter yes or no/", "doesnt matter its going to get updated to the newer version"
+            ]
+            function updateWithName() {
+                dialogLines = [ //newer version
+                    '"Hey, my name is John what’s yours? Didn’t expect company in this corner of hell. You must be one of the lucky ones—still breathing, still thinking you can get out of here." <br><br> (pauses, chuckling bitterly) [press enter to continue...]',
+                    `"Okay ${yourName} I’ll help you. But it’ll cost you. You win against me in a little game I like to play, and I’ll give you what you need to escape. Lose, and, well..." [press enter to continue...]`,
+                    "/asks user to enter yes or no/",
+                    `"Okay ${yourName}, the game is pretty simple, I draw 10 cards and you draw 10 cards whoever gets the total sum of the cards more wins."`,
+                    '"so there are 52 cards and each card is assigned a point lowest point suit is diamonds, then spades, then hearts, and finally clubs, as for number the lowest ranking number is 2 and highest ranking is Ace"',
+                    '"so for example, 2 of diamonds is worth the least amount of points (1 point) and Ace of clubs is worth the most (52 points), got it?" [press enter to continue...]',
+                    '"Alright <br> 3... 2... 1..."<br> [press enter to continue...]',
+                    `"Ah, I knew it! You’re just like the rest—blind and desperate. No help from me, sorry, ${yourName}."`, '"Alright, you win. Listen carefully. (He leans in, his tone serious.)"', '"a draw, wow, whats going on something wrong in my code it seems"',
+                    '"hmm? Just accept your defeat I won, you can try again if you like..."', '"looks like you figured out my trick, I was subtracting 100 from your points, your quite smart."',
+                    '"The key lies within this." <br><br> (He scribbles a cryptic hint on a napkin and hands it to you.)',
+                    'Hint: “Within the doors of shadows, inside the fire.”',
+                    `"Now go, before someone sees us. And remember—trust no one. Not even me. My number is 647-123-4567, call me if you need it, It was nice meeting you ${yourName}"`
+                ]
+            }
+            dialog.style.display = "block"; //display reading
+            updateDialog(); //start
+
+
+
+            function nextScene(event) {
+                if (event.code == "Enter") {
+                    updateDialog();
+                }
+            }
+            function updateDialog() {
+                if (dialogIndex < dialogLines.length) {
+                    if (dialogIndex == 2) {
+                        var reply = prompt("/Trust? write 'yes' or 'no'/");
+                        if (reply == "YES" || reply == "Yes" || reply == "yes") {
+                            dialogIndex++; //set to exit cut scene                        
+                            updateDialog; //move on immediately
+                        } else {
+                            dialog.innerHTML = "Haha, I understand if you would not wanna risk it, afterall im just some random dude.";
+                            dialogIndex = dialogLines.length; //end dialog permenantly
+                        }
+                    } else {
+                        if (dialogIndex == 1) { //take player's name
+                            while (yourName == null) {
+                                yourName = prompt("/What is your name?/");
+                                if (yourName == null) {
+                                    alert("/please say your name/");
+                                }
+                            }
+                            updateWithName(); //upadte all the dialog with name included
+                        }
+                        if (dialogIndex == 7) {
+                            yourCards = cardGame(1); //1 means trick -100
+                            prisonerCards = cardGame(0);
+                            yourPoints = parseInt(yourCards.substring(yourCards.length - 3).trim());
+                            prisonerPoints = parseInt(prisonerCards.substring(prisonerCards.length - 3).trim()); console.log(yourPoints, prisonerPoints);
+                            dialog.innerHTML = "/your cards: " + yourCards + " opponent's cards: " + prisonerCards + "/ ";
+                            if (yourPoints > prisonerPoints) {
+                                didYouWin = 2;
+                            } else if (yourPoints == prisonerPoints) {
+                                didYouWin = 1;
+                            } else {
+                                didYouWin = 0;
+                            }
+                        }
+                        if (dialogIndex < 7 || dialogIndex >= 12) {
+                            dialog.style.fontStyle = "normal";
+                            dialog.innerHTML = dialogLines[dialogIndex];
+                            if (dialogIndex == 13) {
+                                dialog.style.fontStyle = "italic";
+                            }
+                            if (dialogIndex == 14) {
+                                dialogIndex = dialogLines.length; //no more dialogs;
+                            }
+                        }
+                        if (dialogIndex == 8 || dialogIndex == 9) {
+                            if (didYouWin == 2) {
+                                dialog.innerHTML = dialogLines[8];
+                                dialogIndex = 11; //current line
+                            } else if (didYouWin == 1) {
+                                dialog.innerHTML = dialogLines[9];
+                                dialogIndex = 11;
+                            } else {
+                                if (dialogIndex == 8) {
+                                    dialog.innerHTML = dialogLines[7];
+                                } else if (dialogIndex == 9) {
+                                    var objections = prompt("/do you accept your defeat? any number: no 0: yes/");
+                                    if (objections != 0) {
+                                        if (objections == (parseInt(yourPoints) + 100)) {
+                                            dialog.innerHTML = dialogLines[11];
+                                            dialogIndex = 11;
+                                        } else {
+                                            dialog.innerHTML = dialogLines[10];
+                                            dialogIndex = dialogLines.length;
+                                        }
+                                    } else {
+                                        dialogIndex = dialogLines.length;
+                                    }
+                                }
+                            }
+                        }
+                        dialogIndex++;
+                    }
+                } else {
+                    document.removeEventListener("keydown", nextScene);
+                    dialog.style.display = "none";
+                }
+            }
+
+            function cardGame(x) {
+                var suits = ["spades", "clubs", "hearts", "diamonds"];
+                var card = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+                function cardsuit() {
+                    var s = suits[Math.floor(Math.random() * 4)];
+                    return s
+                }
+                function getSuitNumber(v) {
+                    if (v == "diamonds") {
+                        return 0;
+                    } else if (v == "spades") {
+                        return 1;
+                    } else if (v == "hearts") {
+                        return 2;
+                    } else if (v == "clubs") {
+                        return 3;
+                    }
+                }
+                function cardnumber() {
+                    var v = card[Math.floor(Math.random() * 13)];
+                    return v;
+                }
+                function cardnumberName(v) {
+                    if (v == 11) {
+                        return "JACK";
+                    } else if (v == 12) {
+                        return "QUEEN";
+                    } else if (v == 13) {
+                        return "KING";
+                    } else if (v == 14) {
+                        return "ACE";
+                    } else {
+                        return v;
+                    }
+                }
+                function cardNameNumber(v) {
+                    if (v == "JACK") {
+                        return 11;
+                    } else if (v == "QUEEN") {
+                        return 12;
+                    } else if (v == "KING") {
+                        return 13;
+                    } else if (v == "ACE") {
+                        return 14;
+                    } else {
+                        return v;
+                    }
+                }
+                function repetions(len) {
+
+                    for (var i = 0; i < len; i++) {
+                        for (var j = i + 1; j < len; j++) {
+                            if (draw[i] == draw[j]) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                var draw = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                var drawSuit = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                var drawNum = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                drawSuit[0] = cardsuit();
+                drawNum[0] = cardnumberName(cardnumber());
+                draw[0] = ' ' + drawNum[0] + ' of ' + drawSuit[0];
+                for (let i = 1; i < 10; i++) {
+                    do {
+                        drawSuit[i] = cardsuit();
+                        drawNum[i] = cardnumberName(cardnumber());
+                        draw[i] = ' ' + drawNum[i] + ' of ' + drawSuit[i];
+                    } while (repetions(i + 1));
+                }
+                var points = 0;
+                addup(x);
+                function addup(somevalue) {
+                    for (let i = 0; i < 10; i++) {
+                        points += getSuitNumber(drawSuit[i]) * 13 + cardNameNumber(drawNum[i]) - 1;
+                    }
+                    if (somevalue == 1) {
+                        //the trick
+                        points -= 100;
+                    }
+                    points = "  " + points;
+                }
+                draw += " " + points;
+                return draw;
+            }
+
+        }
+        function interaction2() {
+            const dialog = document.getElementById("dialog");
+            const dialogLines = ['"Hey, I cant beleive you just came from the cell block, your really crazy."', '"You want to escape? Cant help, many of my firends tried and failed, but I heard that the 7th door within the shadow door is an easy escape."'];
+            document.addEventListener("keydown", nextScene);
+            let dialogIndex = 0;
+            dialog.style.display = "block"; //display reading
+            updateDialog(); //start
+
+            function nextScene(event) {
+                if (event.code == "Enter") {
+                    updateDialog();
+                }
+            }
+            function updateDialog() {
+                if (dialogIndex < dialogLines.length) {
+                    dialog.innerHTML = dialogLines[dialogIndex];
+                    dialogIndex++;
+                } else {
+                    document.removeEventListener("keydown", nextScene);
+                    dialog.style.display = "none";
+                }
+            }
+        }
+        function interaction3() {
+            const dialog = document.getElementById("dialog");
+            const dialogLines = [
+                '"Ah, a fresh face. For a small price, I’ll tell you which door takes you to freedom. Or you can wander around like the rest of the fools."', "",
+                '"Suit yourself buddy, I was only tryna help. Wanna buy some juice instead?"',
+                '"Ahhh, great choice, my friend! So here’s the deal—one of these prison doors, yeah, it leads to sweet, sweet freedom. But which one? Ehhh, that’s the mystery, isn’t it? Heh. Now, a buddy of mine, lucky devil, he got out ages ago. Said his cell was juuust right—up high, safe from the riff-raff below. Talk about luck, eh? Maybe you’ll have the same fortune... or maybe not."', 
+                '"Tell you what, if you get stuck... give me a ring. Yeah, that’s right, I’m a modern man. Here’s my number— 555-LOCKDOWN. Don’t go wasting my minutes, though, or I might just change my mind about helping."'
+            ];
+            document.addEventListener("keydown", nextScene);
+            let dialogIndex = 0;
+            dialog.style.display = "block"; //display reading
+            updateDialog(); //start
+            let trust;
+
+            function nextScene(event) {
+                if (event.code == "Enter") {
+                    updateDialog();
+                }
+            }
+            function updateDialog() {
+                if (dialogIndex < dialogLines.length) {
+
+                    if (dialogIndex == 1) {
+                        trust = prompt("/Trust? Options: 'yes' or 'no'/");
+                    }
+
+                    if (dialogIndex == 2) {
+                        if (trust == "yes" || trust == "Yes" || trust == "YES") {
+                            dialogIndex++;
+                            dialog.innerHTML = dialogLines[dialogIndex];
+                            dialogIndex++;
+                        } else {
+                            dialog.innerHTML = dialogLines[dialogIndex];
+                            dialogIndex = dialogLines.length;
+                        }
+                    } else {
+                        dialog.innerHTML = dialogLines[dialogIndex];
+                        dialogIndex++;
+                    }
+                } else {
+                    document.removeEventListener("keydown", nextScene);
+                    dialog.style.display = "none";
+                }
+            }
+        }
+        function occupied() {
+            const dialog = document.getElementById("dialog");
+            const dialogLines = ['"Do you mind?! Its occupied!"'];
+            document.addEventListener("keydown", nextScene);
+            let dialogIndex = 0;
+            dialog.style.display = "block"; //display reading
+            updateDialog(); //start
+
+            function nextScene(event) {
+                if (event.code == "Enter") {
+                    updateDialog();
+                }
+            }
+            function updateDialog() {
+                if (dialogIndex < dialogLines.length) {
+                    dialog.innerHTML = dialogLines[dialogIndex];
+                    dialogIndex++;
+                } else {
+                    document.removeEventListener("keydown", nextScene);
+                    dialog.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

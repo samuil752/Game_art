@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>triple door quandary</title>
+    <style>
+        /* Make the body start black and fade in */
+        body {
+            display: flex;
+            margin: 0;
+            background: url('images/Untitled drawing Copy 3 (2).png') no-repeat;
+            color: white;
+            font-family: 'Times New Roman', serif;
+            width: 1280px;
+            padding: 0;
+            position: relative;
+        }
+
+        .content {
+            z-index: 1;
+            width: 1280px;
+            height: 800px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .fade-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            animation: dipOutOfBlack 4s ease-in-out forwards;
+        }
+
+        @keyframes dipOutOfBlack {
+            0% {
+                opacity: 1;
+                /* Fully black */
+            }
+
+            100% {
+                opacity: 0;
+                /* Fully transparent */
+            }
+        }
+
+        /* Door container */
+        .door-frame {
+            position: absolute;
+            width: 67px;
+            height: 122px;
+            background-color: black;
+            border: 5px solid rgb(41, 60, 40);
+            overflow: hidden;
+        }
+
+        /* Door */
+        .innerdoor {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #614d4d;
+            transform-origin: left center;
+            transition: transform 1s ease-in-out;
+        }
+
+        /* Door handle */
+        .handle {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            width: 5px;
+            height: 5px;
+            background-color: black;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Door open state */
+        .innerdoor.open {
+            transform: rotateY(-90deg);
+        }
+
+        hr {
+            position: relative;
+            background-color: rgb(127, 127, 127);
+            height: 10px;
+        }
+
+        footer {
+            margin-top: auto;
+            color: white;
+            background-color: black;
+            font-size: 6px;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            position: fixed;
+            bottom: 0px;
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="fade-overlay" style="z-index: 2"></div>
+    <div class="content" style="position: relative">
+
+        <button style="top:0px; left:0px; font-size: larger; font-family: monospace;"
+            onclick="gotoStatement()">STATEMENT</button>
+
+        <!--door1 comment-->
+        <p style="
+          position: absolute;
+          left: 422px;
+          top: 700px;
+          padding: 10px;
+          font-size: 12px;
+          max-width: 436px;
+          background: black;
+          border: solid, #801313, 5px;
+        ">
+            Im awake, but where am I...? Why am I here...? This place looks like an old prison... <br />
+            Must find a way out of here. Could this door be the way to get out? It looks heavily <br>
+            guarded maybe this is the way.
+        </p>
+        <!--door 1-->
+        <div class="door-frame" data-link="doorOne.html" style="
+        top: 630px;
+        left: 1169px;
+        ">
+            <div class="innerdoor">
+                <div class="handle"></div>
+            </div>
+        </div>
+
+
+
+
+        <!--door2 comment-->
+        <p style="position: absolute;
+        left: 800px;
+        top: 500px;
+        padding: 10px;
+        font-size: 12px;
+        max-width: 370px;
+        background: black;
+        border: solid, #801313, 5px;">
+            Or is it this door? My head hurts, I can't remember. I hear something in here, it may not be safe. I must be
+            very careful to not alert anyone.
+        </p>
+        <!-- Door 2 with a different link -->
+        <div class="door-frame" data-link="doorTwo.html" style="
+        top: 447px;
+        left: 540px;
+        ">
+            <div class="innerdoor">
+                <div class="handle"></div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- Door 3 comment -->
+        <p style="position: absolute;
+        left: 936px;
+        top: 300px;
+        padding: 10px;
+        font-size: 12px;
+        max-width: 370;
+        background: black;
+        border: solid, #801313, 5px;">
+            What about this third door...
+        </p>
+        <!-- Door 3 with another different link -->
+        <div class="door-frame" data-link="doorThree.html" style="
+        top: 264px;
+        left: 1120px;
+        ">
+            <div class="innerdoor">
+                <div class="handle"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="attribution">
+                "<a rel="noopener noreferrer" href="https://www.flickr.com/photos/39952962@N00/1397903264">Prison
+                    cell</a>"
+                by
+                <a rel="noopener noreferrer" href="https://www.flickr.com/photos/39952962@N00">decade_null</a>
+                is licensed under
+                <a rel="noopener noreferrer" href="https://creativecommons.org/licenses/by/2.0/?ref=openverse">CC BY 2.0
+                    <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"
+                        style="height: 1em; margin-right: 0.125em; display: inline" /><img
+                        src="https://mirrors.creativecommons.org/presskit/icons/by.svg"
+                        style="height: 1em; margin-right: 0.125em; display: inline" /></a>.
+            </p>
+            <p class="attribution">"<a rel="noopener noreferrer"
+                    href="https://commons.wikimedia.org/w/index.php?curid=28453248">File:Newgate Prison door (c.1780),
+                    Museum of London.JPG</a>" by <a rel="noopener noreferrer"
+                    href="https://commons.wikimedia.org/wiki/User:Kim_Traynor">Kim Traynor</a> is licensed under <a
+                    rel="noopener noreferrer" href="https://creativecommons.org/licenses/by-sa/3.0/?ref=openverse">CC
+                    BY-SA
+                    3.0 <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"
+                        style="height: 1em; margin-right: 0.125em; display: inline;" /><img
+                        src="https://mirrors.creativecommons.org/presskit/icons/by.svg"
+                        style="height: 1em; margin-right: 0.125em; display: inline;" /><img
+                        src="https://mirrors.creativecommons.org/presskit/icons/sa.svg"
+                        style="height: 1em; margin-right: 0.125em; display: inline;" /></a>.</p>
+        </footer>
+    </div>
+    <script>
+
+
+        // Toggle door open/close on click
+
+        setTimeout(() => {
+            document.querySelector(".fade-overlay").style.zIndex = "0";
+        }, 1000);
+        document.querySelectorAll(".innerdoor").forEach((innerdoor) => {
+            innerdoor.addEventListener("click", () => {
+                const link =
+                    innerdoor.parentElement.getAttribute("data-link");
+
+
+                if (link == "doorThree.html") {
+                    const PASSWORD = "time";
+                    var userEntered = prompt("enter the password");
+                    if (userEntered == PASSWORD) {
+
+                        innerdoor.classList.toggle("open");
+                        setTimeout(() => {
+                            window.location.href = link; // Redirect to the corresponding link
+                        }, 1000);
+                    } else {
+                        alert("wrong password");
+                    }
+                } else {
+                    innerdoor.classList.toggle("open");
+                    setTimeout(() => {
+                        window.location.href = link; // Redirect to the corresponding link
+                    }, 1000); // 1 second delay before redirect
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

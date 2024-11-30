@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>ShadowDoor</title>
+    <style>
+        body {
+            padding: 0px;
+            margin: 0px;
+            height: 800px;
+            width: 5973px;
+            background-color: black;
+        }
+
+        area {
+            cursor: pointer;
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Image -->
+    <img src="images/ShadowDoorNew2.png" alt="shadow room" usemap="#doors" style="width: 5973px; height: 800px" />
+    <!-- Map -->
+    <map name="doors">
+        <area shape="rect" coords="1380,1678,1600,182" alt="door 1" onclick="gameLost()" />
+        <area shape="rect" coords="1943,492,2019,248" alt="door 2" onclick="gameLost()" />
+        <area shape="rect" coords="2338,388,2377,257" alt="door 3" onclick="gameLost()" />
+        <area shape="rect" coords="2696,342,2770,150" alt="door 4" href="endlessCorridor.html" />
+        <area shape="rect" coords="3096,375,3119,260" alt="door 5" onclick="gameLost()" />
+        <area shape="rect" coords="3438,456,3556,227" alt="door 6" href="doorTwo.html" />
+        <area shape="rect" coords="3907,602,4195,133" alt="door 7" onclick="gameLost()" />
+        <area shape="circle" coords="2709,650,10" alt="" onclick="getKey()" />
+    </map>
+    <!--key messege-->
+    <section id="dialog"
+        style="height: 60px; font-family: 'Times New Roman', Times, serif; font-size: 24px; color: white; width:  1270px; position: fixed; bottom: 0px; padding: 5px; background-color: #110000; border: 5px #b600ad; display:none">
+    </section>
+
+    <script>
+        function gameLost() {
+            alert("game over");
+            window.open("index.html", "_self");
+        }
+        function getKey() {
+            const dialog = document.getElementById("dialog");
+            let dialogIndex = 0;
+            var dialogLines = [".SSENKRAD EHT NI SRAEPPASID DNA THGIL SI EREHT REVEREHW UOY HTIW SYAWLA SI DROW YEK EHT .EMIT RUOY ESAERCNI EHT OT YEK EHT DERIUQCA EVAH UOY", " .PLLEH YNA ERIUQER UOY FI ,'LLUKS' EDOC EHT YB EM NOPU LLAC"];
+
+            dialog.style.display = "block"; //display reading
+            updateDialog(); //start
+            document.addEventListener("keydown", nextScene); //check if enter is pressed
+
+            function nextScene(event) {
+                if (event.code == "Enter") {
+                    updateDialog();
+                }
+            }
+            function updateDialog() {
+                if (dialogIndex < dialogLines.length) {
+                    dialog.innerHTML = dialogLines[dialogIndex];
+                    dialogIndex++;
+                } else {
+                    document.removeEventListener("keydown", nextScene);
+                    dialog.style.display = "none";
+
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
