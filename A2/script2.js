@@ -30,7 +30,7 @@ function startTimer(durationInSeconds) {
     // Add a click event listener to reset the timer
     timerElement.addEventListener("click", () => {
         console.log(userKey);
-        if (!hasReset && ("Shadow"==userKey)) {
+        if (!hasReset && ("Shadow"==userKey || "SHADOW"==userKey || "shadow"==userKey)) {
             hasReset = true; // Set the flag to true after the first reset
             clearInterval(intervalId); // Stop the current timer
             startTimer(60); // Restart the timer with 60 seconds
